@@ -4,7 +4,7 @@ Specs describe what the system does, and why. Each spec describes a single topic
 
 Specs are found in the specs/ directory, indexed in the specs/README.md file. Each spec is a subdirectory, with the spec in its specs/{spec-name}/README.md file.
 
-Tasks describe how each spec will be implemented. Each spec has a tasks subdirectory with a specs/{spec-name}/tasks/README.md file that links to each task in that directory.
+Tasks describe how each spec will be implemented. Each spec has a tasks subdirectory with a specs/{spec-name}/tasks/README.md file that links to each task in that directory. The specs/{spec-name}/README.md file must always link to that spec's tasks file at specs/{specs-name}/tasks/README.md.
 
 Priority defines the order of task implementation. The highest priority task should always be worked on next. specs/README.md always lists specs in priority order, and specs/{spec-name}/tasks/README.md always lists tasks in priority order.
 
@@ -38,9 +38,3 @@ Run these after implementing to verify changes:
 - Compile: `[compile command]`
 - Tests: `[test command]`
 - Run: `[run command]`
-
-## Operational Notes
-
-Succinct learnings about how to RUN the project:
-
-### Codebase Patterns

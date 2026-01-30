@@ -58,3 +58,14 @@ claude "/plan-next-spec"
 
 # iterate on the skills so they work better for your project
 ```
+
+## Concurrency
+
+What can be done in parallel?
+- `claude "/specify-idea ideas/1.md"`: specifying an idea to create specs
+- `claude "/plan-next-spec"`: plan a spec to create tasks
+- `./loop.sh n`: implement next task
+
+## Optimization
+
+What needs to be optimized in `implement-next-task`?
