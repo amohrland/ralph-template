@@ -68,8 +68,8 @@ if [ -n "$INPUT_FILE" ]; then
     echo "Error: File not found: $INPUT_FILE" >&2
     exit 1
   fi
-  cat "$INPUT_FILE" | jq -f "$JQ_FILTER" -r 2>/dev/null || true
+  cat "$INPUT_FILE" | jq --unbuffered -f "$JQ_FILTER" -r 2>/dev/null || true
 else
   # Read from stdin
-  jq -f "$JQ_FILTER" -r 2>/dev/null || true
+  jq --unbuffered -f "$JQ_FILTER" -r 2>/dev/null || true
 fi

@@ -4,9 +4,10 @@
 select(.type != "system") |
 
 if .type == "assistant" and (.message.content // null) then
-  # Show usage info first if available
+  # Show usage info first if available (with timestamp)
   (if .message.usage then
-    "[\u001b[90mTokens\u001b[0m] in:\(.message.usage.input_tokens // 0) cache_read:\(.message.usage.cache_read_input_tokens // 0) cache_create:\(.message.usage.cache_creation_input_tokens // 0) out:\(.message.usage.output_tokens // 0)"
+    (now | strftime("%H:%M:%S")) as $timestamp |
+    "[\u001b[90m\($timestamp)\u001b[0m] in:\(.message.usage.input_tokens // 0) cache_read:\(.message.usage.cache_read_input_tokens // 0) cache_create:\(.message.usage.cache_creation_input_tokens // 0) out:\(.message.usage.output_tokens // 0)"
   else
     empty
   end),
@@ -30,7 +31,11 @@ if .type == "assistant" and (.message.content // null) then
       elif .name == "Glob" then
         "[\u001b[1;33m→\u001b[0m] \(.name): pattern=\(.input.pattern)\(if .input.path then " path=\(.input.path)" else "" end)"
       elif .name == "TodoWrite" then
-        "[\u001b[1;33m→\u001b[0m] \(.name): \(.input.todos | length) todos (\([.[] | .status] | group_by(.) | map("\(.[0]):\(length)") | join(", ")))"
+        if (.input.todos | type) == "array" then
+          "[\u001b[1;33m→\u001b[0m] \(.name): \(.input.todos | length) todos (\([.input.todos[] | .status] | group_by(.) | map("\(.[0]):\(length)") | join(", ")))"
+        else
+          "[\u001b[1;33m→\u001b[0m] \(.name)"
+        end
       elif .name == "Skill" then
         if .input.args then
           "[\u001b[1;35m✦\u001b[0m] Skill: \(.input.skill) \(.input.args)"
