@@ -1,7 +1,7 @@
 ---
 description: Plans the implementation of a single spec. Creates the tasks to implement that spec.
 argument-hint: [spec-directory]
-model: claude-opus-4-5
+model: opus
 ---
 
 study the spec in $ARGUMENTS.
