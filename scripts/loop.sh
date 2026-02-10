@@ -1,5 +1,7 @@
 #!/bin/bash
 
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+
 # Check if argument is provided
 if [ $# -eq 0 ]; then
     echo "Error: Please provide the number of times to run step.sh"
@@ -17,8 +19,8 @@ fi
 count=$1
 
 # Check if step.sh exists
-if [ ! -f "step.sh" ]; then
-    echo "Error: step.sh not found in current directory"
+if [ ! -f "$SCRIPT_DIR/step.sh" ]; then
+    echo "Error: step.sh not found in scripts directory"
     exit 1
 fi
 
@@ -27,7 +29,7 @@ echo "Running step.sh $count times..."
 for ((i=1; i<=count; i++)); do
     echo ""
     echo "=== Iteration $i of $count ==="
-    ./step.sh
+    "$SCRIPT_DIR/step.sh"
     if [ $? -ne 0 ]; then
         echo "Error: step.sh failed on iteration $i"
         exit 1
