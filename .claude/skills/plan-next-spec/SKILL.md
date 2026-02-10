@@ -1,6 +1,6 @@
 ---
 description: Plans the implementation of the next highest priority spec. Creates tasks for that spec.
-model: opus
+model: claude-opus-4-6
 ---
 
 study specs/README.md

@@ -1,7 +1,7 @@
 ---
 description: Claude interviews you about your idea and creates specs.
 argument-hint: [idea-file]
-model: opus
+model: claude-opus-4-6
 ---
 
 study idea in $ARGUMENTS
