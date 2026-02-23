@@ -29,6 +29,7 @@ Options:
   -d, --dir DIR        Parent directory for project (default: current directory)
   -c, --claude-md FILE Custom CLAUDE.md file to use
   -t, --template DIR   Path to local ralph-template directory (default: clone from GitHub)
+  -g, --github-user USER  GitHub user/org for ralph-template (default: zcox)
   --afk                After setup, automatically run specify-idea and start the afk loop
 
 Examples:
@@ -44,6 +45,7 @@ EOF
 PARENT_DIR="$(pwd)"
 CUSTOM_CLAUDE_MD=""
 TEMPLATE_DIR=""
+GITHUB_USER="zcox"
 IDEA_TEXT=""
 IDEA_MODE=""
 AFK=false
@@ -64,6 +66,10 @@ while [[ $# -gt 0 ]]; do
             ;;
         -t|--template)
             TEMPLATE_DIR="$2"
+            shift 2
+            ;;
+        -g|--github-user)
+            GITHUB_USER="$2"
             shift 2
             ;;
         --afk)
@@ -162,7 +168,7 @@ if [[ -n "$TEMPLATE_DIR" ]]; then
     rm -rf .git
 else
     echo "Fetching ralph-template..."
-    curl -sL https://github.com/zcox/ralph-template/archive/HEAD.tar.gz | tar xz --strip-components=1
+    curl -sL "https://github.com/${GITHUB_USER}/ralph-template/archive/HEAD.tar.gz" | tar xz --strip-components=1
 fi
 
 # Optional: agent-browser skill
