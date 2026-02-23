@@ -9,3 +9,5 @@ Ignore complete specs, and specs with planned tasks.
 Identify the next highest priority spec that is not fully planned yet. 
 Verify that the spec's tasks/README.md contains tasks, and that the task files actually exist.
 Use the plan-spec-tasks skill on that spec to plan out its tasks.
+
+If there are no specs left to plan, output exactly: <promise>ALL_SPECS_PLANNED</promise>

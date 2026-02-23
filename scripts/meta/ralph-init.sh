@@ -29,6 +29,7 @@ Options:
   -d, --dir DIR        Parent directory for project (default: current directory)
   -c, --claude-md FILE Custom CLAUDE.md file to use
   -t, --template DIR   Path to local ralph-template directory (default: clone from GitHub)
+  --afk                After setup, automatically run specify-idea and start the afk loop
 
 Examples:
   $(basename "$0") my-app ~/ideas/my-app.md
@@ -45,6 +46,7 @@ CUSTOM_CLAUDE_MD=""
 TEMPLATE_DIR=""
 IDEA_TEXT=""
 IDEA_MODE=""
+AFK=false
 
 # Parse options
 while [[ $# -gt 0 ]]; do
@@ -63,6 +65,10 @@ while [[ $# -gt 0 ]]; do
         -t|--template)
             TEMPLATE_DIR="$2"
             shift 2
+            ;;
+        --afk)
+            AFK=true
+            shift
             ;;
         -m)
             IDEA_MODE="text"
@@ -194,23 +200,33 @@ echo "=========================================="
 echo "Project created at: $PROJECT_DIR"
 echo "Idea file: ideas/${IDEA_FILENAME}"
 echo "=========================================="
-echo ""
-echo "Next steps:"
-echo ""
-echo "  cd $PROJECT_DIR"
-echo ""
-echo "  # Generate specs from the idea"
-echo "  claude \"/specify-idea ideas/${IDEA_FILENAME}\""
-echo ""
-echo "  # Review and iterate on specs"
-echo "  ls specs/"
-echo ""
-echo "  # Plan tasks for highest priority spec"
-echo "  claude \"/plan-next-spec\""
-echo ""
-echo "  # Let Ralph implement one task"
-echo "  ./scripts/step.sh"
-echo ""
-echo "  # Or let Ralph implement multiple tasks"
-echo "  ./scripts/loop.sh 5"
-echo ""
+
+if [[ "$AFK" == true ]]; then
+    echo ""
+    echo "Starting interactive specify-idea session..."
+    echo "When you're done specifying, exit Claude to start the afk loop."
+    echo ""
+    claude --dangerously-skip-permissions "/specify-idea ideas/${IDEA_FILENAME}"
+    exec scripts/afk.sh
+else
+    echo ""
+    echo "Next steps:"
+    echo ""
+    echo "  cd $PROJECT_DIR"
+    echo ""
+    echo "  # Generate specs from the idea"
+    echo "  claude \"/specify-idea ideas/${IDEA_FILENAME}\""
+    echo ""
+    echo "  # Review and iterate on specs"
+    echo "  ls specs/"
+    echo ""
+    echo "  # Plan tasks for highest priority spec"
+    echo "  claude \"/plan-next-spec\""
+    echo ""
+    echo "  # Let Ralph implement one task"
+    echo "  ./scripts/step.sh"
+    echo ""
+    echo "  # Or let Ralph implement multiple tasks"
+    echo "  ./scripts/loop.sh 5"
+    echo ""
+fi
